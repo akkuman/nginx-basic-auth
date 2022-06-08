@@ -1,0 +1,23 @@
+services:
+  application:
+    image: httpd
+    networks:
+      - mynetwork
+
+  nginx:
+    image: akkuman/nginx-basic-auth
+    ports:
+      - "80:3000"
+    depends_on:
+      - application
+    environment: 
+      - BIND_PORT=3000
+      - FORWARD_HOST=application
+      - FORWARD_PORT=80
+      - BASIC_USERNAME=john.doe
+      - BASIC_PASSWORD=myp@ssword!
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
